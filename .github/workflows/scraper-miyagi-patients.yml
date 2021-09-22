@@ -21,7 +21,7 @@ jobs:
       - name: install python packages
         run: |
           python -m pip install --upgrade pip
-          pip install numpy pandas datetime openpyxl itertools
+          pip install numpy pandas datetime openpyxl
           
       - name: execute py script # run sj-gobierno.py to get the latest data
         env: 
