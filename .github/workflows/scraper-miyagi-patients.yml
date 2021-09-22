@@ -2,7 +2,7 @@ name: scraper-miyagi-patients
 on:
   schedule:
 #    - cron: '0 18 * * *' # 毎日 18:00 に実行
-    - cron: '22 04 * * *' # 毎日 12:05 に実行
+    - cron: '47 04 * * *' # 毎日 12:05 に実行
 
 jobs:
   build:
