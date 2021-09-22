@@ -1,5 +1,5 @@
 name: scraper-miyagi-patients
-on:[push]
+on: [push]
 #on:
 #  schedule:
 #    - cron: '0 18 * * *' # 毎日 18:00 に実行
