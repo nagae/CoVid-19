@@ -9,7 +9,7 @@ last_update = pd.to_datetime(df.iloc[0,:].index[-1])
 last_update = dt.datetime(last_update.year, last_update.month, last_update.day, 9, 0, 0)
 last_update_str = last_update.strftime("%Y%m%d_%H%M")
 df.columns = df.iloc[1,:]
-df.index.name=""
+df.index.name=last_update.strftime("%Y/%m/%d %H:%M")
 df = df[2:]
 df = df[df["公表_年月日"] != "欠番"]
 def to_dt(x):
