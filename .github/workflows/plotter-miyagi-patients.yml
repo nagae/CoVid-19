@@ -1,4 +1,4 @@
-name: splotter-miyagi-patients.yml
+name: plotter-miyagi-patients.yml
 on:
   workflow_dispatch:
 #  schedule:
