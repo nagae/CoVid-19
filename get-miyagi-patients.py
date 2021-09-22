@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 import numpy as np
 import pandas as pd
 import datetime as dt
@@ -25,7 +27,6 @@ for col in ["公表_年月日", "患者_発症日", "陽性判明_年月日"]:
     df[col].apply(to_dt)
 df.to_csv("data/resources/{}-{}.csv".format(all_patients_fname, last_update_str), encoding='utf-8')
 df.to_csv("data/{}.csv".format(all_patients_fname), encoding='utf-8')
-
 # もともとの日次年代別データ
 df_url = 'https://raw.githubusercontent.com/nagae/CoVid-19/main/data/{}.csv'.format(daily_patients_fname)
 df = pd.read_csv(df_url, header=[0,1], index_col=0)
@@ -36,7 +37,7 @@ states = ["入院中", "入院調整中", "療養中", "合計"]
 mult_cols = pd.MultiIndex.from_tuples(product(ages, states))
 all_patients_df_url = 'https://raw.githubusercontent.com/nagae/CoVid-19/main/data/{}.csv'.format(all_patients_fname)
 all_patients_df = pd.read_csv(all_patients_df_url, index_col = 0, header=0)
-latest_dt = pd.to_datetime(all_patients_df.index.name) # 最近の患者データの更新日
+latest_dt = pd.to_datetime(all_patients_df["公表_年月日"].sort_values(ascending=False).iloc[0]) # 最近の患者データの更新日
 latest_dt = dt.datetime(latest_dt.year, latest_dt.month, latest_dt.day)
 
 # 最近のデータがもともとのデータに反映されていない場合
