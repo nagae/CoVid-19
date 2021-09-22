@@ -1,8 +1,9 @@
 name: scraper-miyagi-patients
-on:
-  schedule:
-#    - cron: '0 18 * * *' # 毎日 18:00 に実行
-     - cron: '15 11 * * *' # 毎日 12:00 に実行
+on: [push]
+#on:
+#  schedule:
+#    - cron: '0 14 * * *' # 毎日 18:00JST(=14:00 UTC)に実行
+
 
 jobs:
   build:
@@ -20,7 +21,7 @@ jobs:
       - name: install python packages
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install numpy pandas datetime openpyxl
           
       - name: execute py script # run sj-gobierno.py to get the latest data
         env: 
