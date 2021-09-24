@@ -30,14 +30,16 @@ orig_df.to_csv("data/{}.csv".format(all_patients_fname), encoding='utf-8')
 print("Wrote:\ndata/resources/{}-{}.csv\ndata/{}.csv".format(all_patients_fname, last_update_str, all_patients_fname))
 
 # もともとの日次年代別データ
-daily_df_url = 'https://raw.githubusercontent.com/nagae/CoVid-19/main/data/{}.csv'.format(daily_patients_fname)
+#daily_df_url = 'https://raw.githubusercontent.com/nagae/CoVid-19/main/data/{}.csv'.format(daily_patients_fname)
+daily_df_url = 'data/{}.csv'.format(daily_patients_fname)
 daily_df = pd.read_csv(daily_df_url, header=[0,1], index_col=0)
 daily_df = daily_df.set_index(pd.to_datetime(daily_df.index))
 # 最近の患者データ
 ages = ["10歳未満", "10代", "20代", "30代", "40代", "50代", "60代", "70代", "80代", "90歳以上"]
 states = ["入院中", "入院調整中", "療養中", "合計"]
 mult_cols = pd.MultiIndex.from_tuples(product(ages, states))
-all_patients_df_url = 'https://raw.githubusercontent.com/nagae/CoVid-19/main/data/{}.csv'.format(all_patients_fname)
+#all_patients_df_url = 'https://raw.githubusercontent.com/nagae/CoVid-19/main/data/{}.csv'.format(all_patients_fname)
+all_patients_df_url = 'data/{}.csv'.format(all_patients_fname)
 all_patients_df = pd.read_csv(all_patients_df_url, index_col = 0, header=0)
 latest_dt = pd.to_datetime(all_patients_df["公表_年月日"].sort_values(ascending=False).iloc[0]) # 最近の患者データの更新日
 latest_dt = dt.datetime(latest_dt.year, latest_dt.month, latest_dt.day)
