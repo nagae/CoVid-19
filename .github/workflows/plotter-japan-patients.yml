@@ -1,4 +1,4 @@
-name: plotter-miyagi-patients.yml
+name: plotter-japan-patients
 on:
   workflow_dispatch:
     #schedule:
