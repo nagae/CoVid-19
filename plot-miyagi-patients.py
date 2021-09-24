@@ -43,7 +43,7 @@ ax[1].set_xticklabels(plot_df.index.strftime("%y-%m-%d").to_list())
 
 
 # グラフの保存
-plt.savefig("fig/Miyagi_patients_by_age.png", bbox_inches="tight")
+plt.savefig("fig/CoVid19-Miyagi-patients_by_age.png", bbox_inches="tight")
 
 ########################################
 fig, ax = plt.subplots(2,1,figsize=(18,12*2))
@@ -77,4 +77,4 @@ ax[1].legend(h, age_label, loc="center left")
 ax[1].set_xticklabels(plot_df.index.strftime("%y-%m-%d").to_list())
 
 # グラフの保存
-plt.savefig("fig/Miyagi_patients_by_age_rate.png", bbox_inches="tight")
+plt.savefig("fig/CoVid19-Miyagi-patients_by_age_rate.png", bbox_inches="tight")
