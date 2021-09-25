@@ -2,7 +2,7 @@ name: scraper-miyagi-patients
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 7 * * *' # 毎日 16:00JST(=07:00 UTC)に実行
+    - cron: '0 14 * * *' # 毎日 23:00JST(=14:00 UTC)に実行
 
 
 jobs:
