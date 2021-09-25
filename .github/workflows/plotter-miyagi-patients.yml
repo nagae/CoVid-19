@@ -2,7 +2,7 @@ name: plotter-miyagi-patients
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 8 * * *' # 毎日 12:00JST(=08:00 UTC)に実行（scraperが確実に動作した後で描画にしたい)
+    - cron: '0 8 * * *' # 毎日 17:00JST(=08:00 UTC)に実行（scraperが確実に動作した後で描画にしたい)
 
 
 jobs:
