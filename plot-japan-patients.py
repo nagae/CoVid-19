@@ -5,7 +5,6 @@ from itertools import product
 from matplotlib  import pyplot as plt
 import japanize_matplotlib
 
-path = 'https://raw.githubusercontent.com/nagae/CoVid-19/main/data/Japan_patients_by_age.csv'
 path = 'data/CoVid19-Japan-weekly_patients_by_age.csv'
 df = pd.read_csv(path, header=[0,1], index_col=0, parse_dates=[0])
 df = df.sort_index(ascending=True)
