@@ -59,6 +59,7 @@ def plot_pref(pref_set):
             a.set_ylim([1,10**total_case_order])
         else:
             a.set_ylim([1, a.get_ylim()[1]])
+            a.legend(loc='upper left')
         a.set_title(JP_pref_of[pref])
         ## x軸の主目盛りを修正
         a.xaxis.set_major_locator(mdates.MonthLocator()) # 主目盛りを月ごとに設定
@@ -67,8 +68,6 @@ def plot_pref(pref_set):
         plt.setp(a.get_xticklabels(which='major'), rotation=90)
         ## カラム間の調整
         plt.subplots_adjust(wspace=0.1, hspace=0.25)
-        if pid == 0:
-            a.legend(loc='upper left')
     return fig, ax
 # 全国+47都道府県を4つに分けて描画し，グラフに保存
 for sid in range(4):
