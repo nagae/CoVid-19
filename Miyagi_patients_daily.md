@@ -9,7 +9,9 @@
 ## 各日で報告されている年代別の患者数
 - 上図: 全ての患者について，年代別に「療養中(淡)」「入院調整中(中濃)」「入院中(濃)」として積み上げた棒グラフ． 
 - 下図: 入院中の患者を年代別に積み上げた棒グラフ．
+
 <a href="https://github.com/nagae/CoVid-19/raw/main/fig/CoVid19-Miyagi-patients_by_age.png"><img src="https://github.com/nagae/CoVid-19/raw/main/fig/CoVid19-Miyagi-patients_by_age.png" alt="Miyagi by age" width="800"/></a>
+
 ## 各日で報告されている患者の年代別構成比率
 上で作成したグラフの年代別の構成比率をプロットしたもの．
 <a href="https://github.com/nagae/CoVid-19/raw/main/fig/CoVid19-Miyagi-patients_by_age_rate.png"><img src="https://github.com/nagae/CoVid-19/raw/main/fig/CoVid19-Miyagi-patients_by_age_rate.png" alt="Miyagi age rate" width="800"/></a>
