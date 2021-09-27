@@ -1,7 +1,7 @@
 
 # 全国の年代別の患者数・死亡数・入院数・重症数の推移(ほぼ週次）
 データ元:  
-厚生労働省 「新型コロナウイルス感染症について」の[国内の発生状況など](https://www.mhlw.go.jp/stf/covid-19/kokunainohasseijoukyou.html)および[報道発表資料](https://www.mhlw.go.jp/stf/houdou/index.html)で公開している「新型コロナウイルス感染症の国内発生動向(例えば, [9/22 18時時点](https://www.mhlw.go.jp/content/10906000/000835194.pdf))」
+厚生労働省 「新型コロナウイルス感染症について」の[国内の発生状況など](https://www.mhlw.go.jp/stf/covid-19/kokunainohasseijoukyou.html)および[報道発表資料](https://www.mhlw.go.jp/stf/houdou/index.html)で公開されている「新型コロナウイルス感染症の国内発生動向(例えば, [9/22 18時時点](https://www.mhlw.go.jp/content/10906000/000835194.pdf))」
 
 上記データはPDFとして毎週更新（過去データも[報道発表資料](https://www.mhlw.go.jp/stf/houdou/index.html)内に残っている）されているので，各週について，年代別に
 - 陽性者
