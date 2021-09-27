@@ -32,7 +32,7 @@ total_case = new_case[new_case.index.get_level_values("Prefecture") != "ALL"].gr
 total_case_order = np.log10(total_case.max()).astype(int).values[0] + 1
 # グラフ描画関数
 def plot_pref(pref_set):
-    cols = 4
+    cols = 3
     rows = np.ceil(len(pref_set)/cols).astype(int)
     fig, ax = plt.subplots(rows, cols, figsize=(8*cols, 6*rows))
     for pid, pref in enumerate(pref_set):
