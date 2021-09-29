@@ -1,4 +1,4 @@
-# 宮城県の患者数・入院数の推移（日次・年代別）
+# 宮城県の感染状況の推移（日次・年代別：患者数・入院数）
 データ元:  
 宮城県の[新型コロナウイルス感染症対策サイト](https://www.pref.miyagi.jp/site/covid-19/02.html)で公開されている[新型コロナウイルス感染症患者状況一覧表 [Excelファイル]　](https://www.pref.miyagi.jp/pdf/covid19/m-covid-kanja.xlsx)の「患者状況一覧(HP掲載)」シート．
 
