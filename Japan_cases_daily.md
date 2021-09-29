@@ -1,4 +1,4 @@
-## 全国の陽性数・死亡数・入院数・重症数の推移（日次・県別）
+# 全国の感染状況の推移1（日次・県別：陽性数・死亡数・入院数・重症数）
 データ元:  
 厚生労働省「新型コロナウィルス感染症について」の[オープンデータ](https://www.mhlw.go.jp/stf/covid-19/open-data.html)で公開されている下記の4つのファイル：
 - [新規陽性者数の推移（日別）](https://covid19.mhlw.go.jp/public/opendata/newly_confirmed_cases_daily.csv)
