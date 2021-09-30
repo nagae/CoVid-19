@@ -1,4 +1,4 @@
-name: plotter-japan-patients
+name: plotter-japan-weekly-patients
 on:
   workflow_dispatch:
     #schedule:
