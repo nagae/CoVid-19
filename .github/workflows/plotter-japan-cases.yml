@@ -1,4 +1,4 @@
-name: plotter-japan-cases
+name: plotter-japan-daily-cases
 on:
   workflow_dispatch:
   schedule:
