@@ -1,9 +1,7 @@
 
 # 全国の感染状況の推移2（週次・年代別：患者数・死亡数・入院数・重症数）
-## 注意 (2021.10.04)
-**[2021年9月28日24時現在の発表](https://www.mhlw.go.jp/content/10906000/000837754.pdf)では，その[前週の発表](https://www.mhlw.go.jp/content/10906000/000835194.pdf)に比べて，死亡数が14,462人から17,409人へと大きく変化しています． ただし， 下記の理由から， これは *集計上の問題(集計遅れや集計方法の変更など)* であり， 突然多くの方が亡くなったことを意味しているものではないと思われます．：**
-1. [「新型コロナウィルス感染症について/オープンデータ」](https://www.mhlw.go.jp/stf/covid-19/open-data.html)で報告されている，各都道府県の発表件数を積み上げた[日次データ](https://nagae.github.io/CoVid-19/Japan_cases_daily.html)では，こうした死亡数の急増は観測されていない．
-2. [9月22日時点での発表](https://www.mhlw.go.jp/content/10906000/000835194.pdf)までは， 国内発生動向(速報値)における死亡数が[ 「新型コロナウィルス感染症について/オープンデータ/死亡者数（累積）」](https://covid19.mhlw.go.jp/public/opendata/deaths_cumulative_daily.csv)での報告数に比べて少なかった． (例えば， 9/22 での国内発生動向(速報値)の死亡数は 14,462名だが，オープンデータでは17,312名）．
+## 注意 
+- [(2021.10.04) 9月末〜10月にかけての死亡者数の急増について](#211004)
 
 ## グラフの見方
 データ元:  
@@ -34,3 +32,9 @@
 
 
 <a href="https://github.com/nagae/CoVid-19/raw/main/fig/CoVid19-Japan-patients_by_age.png"><img src="https://github.com/nagae/CoVid-19/raw/main/fig/CoVid19-Japan-patients_by_age.png" alt="Japan CoVid-19 patients by age" width="800" /></a>
+
+# 注意
+## <a name="211004"></a>(2021.10.04) 9月末〜10月にかけての死亡者数の急増について
+**[2021年9月28日24時現在の発表](https://www.mhlw.go.jp/content/10906000/000837754.pdf)では，その[前週の発表](https://www.mhlw.go.jp/content/10906000/000835194.pdf)に比べて，死亡数が14,462人から17,409人へと大きく変化しています． ただし， 下記の理由から， これは *集計上の問題(集計遅れや集計方法の変更など)* であり， 突然多くの方が亡くなったことを意味しているものではないと思われます．：**
+1. [「新型コロナウィルス感染症について/オープンデータ」](https://www.mhlw.go.jp/stf/covid-19/open-data.html)で報告されている，各都道府県の発表件数を積み上げた[日次データ](https://nagae.github.io/CoVid-19/Japan_cases_daily.html)では，こうした死亡数の急増は観測されていない．
+2. [9月22日時点での発表](https://www.mhlw.go.jp/content/10906000/000835194.pdf)までは， 国内発生動向(速報値)における死亡数が[ 「新型コロナウィルス感染症について/オープンデータ/死亡者数（累積）」](https://covid19.mhlw.go.jp/public/opendata/deaths_cumulative_daily.csv)での報告数に比べて少なかった． (例えば， 9/22 での国内発生動向(速報値)の死亡数は 14,462名だが，オープンデータでは17,312名）．
