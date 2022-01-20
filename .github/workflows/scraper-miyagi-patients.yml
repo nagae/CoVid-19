@@ -30,7 +30,7 @@ jobs:
           EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
           EMAIL_RECIPIENT: ${{ secrets.EMAIL_RECIPIENT }}
-        run: python get-miyagi-patients.py
+        run: python get-miyagi-patients2.py
           
       - name: commit files
         run: |
