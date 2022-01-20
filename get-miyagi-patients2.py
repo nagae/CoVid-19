@@ -14,3 +14,4 @@ for col in ["公表_年月日", "患者_発症日", "患者_陽性判明日"]:
 today = dt.date.today()
 today_str = today.strftime("%Y%m%d")
 orig_df.to_csv("data/resources/{}-{}_0900.csv".format(all_patients_fname, today_str), encoding='utf-8')
+orig_df.to_csv("data/{}.csv".format(all_patients_fname), encoding='utf-8')
