@@ -1,6 +1,5 @@
 import pandas as pd
 import datetime as dt
-from matplotlib import pyplot as plt
 all_patients_fname = "CoVid19-Miyagi-all_patients"
 orig_df_url = "https://covid19.pref.miyagi.jp/data/patients-utf8.csv"
 orig_df = pd.read_csv(orig_df_url, index_col=0)
