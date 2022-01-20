@@ -11,7 +11,7 @@ def to_dt(x):
         return x
 for col in ["公表_年月日", "患者_発症日", "患者_陽性判明日"]:
     orig_df[col].apply(to_dt)
-today = dt.date.today()
+today = dt.date.today()-dt.timedelta(days=1)
 today_str = today.strftime("%Y%m%d")
 orig_df.to_csv("data/resources/{}-{}_0900.csv".format(all_patients_fname, today_str), encoding='utf-8')
 orig_df.to_csv("data/{}.csv".format(all_patients_fname), encoding='utf-8')
