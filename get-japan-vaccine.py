@@ -8,8 +8,8 @@ import re
 # 新しいデータを取得
 url = "https://www.kantei.go.jp/jp/content/nenreikaikyubetsu-vaccination_data.xlsx"
 #df_ratio = pd.read_excel(url, sheet_name="様式", header=3, index_col=0).iloc[:2,:]
-latest_date = pd.read_excel(url, sheet_name="様式", header=None, index_col=None).iat[2,11]
-df_num = pd.read_excel(url, sheet_name="様式", header=8, index_col=0).iloc[:3,:].astype(int)
+latest_date = pd.read_excel(url, sheet_name="全国", header=None, index_col=None).iat[2,11]
+df_num = pd.read_excel(url, sheet_name="全国", header=8, index_col=0).iloc[:3,:].astype(int)
 latest_dt = dt.datetime(dt.datetime.today().year, *np.array(re.search("(\d+)月(\d+)日", latest_date).groups()).astype(int))
 latest_dt_str = latest_dt.strftime("%Y/%m/%d")
 ndf = pd.DataFrame(df_num.values.T.reshape(1,df_num.values.size),columns=pd.MultiIndex.from_tuples(product(df_num.columns,df_num.index)), index=[latest_dt_str]).astype(int)
