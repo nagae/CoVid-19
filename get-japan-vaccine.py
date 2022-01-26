@@ -20,3 +20,13 @@ orig_df = pd.read_csv(data_fname, index_col=0, header=[0,1])
 if latest_dt_str not in orig_df.index:
     df = pd.concat([ndf, orig_df])
     df.to_csv(data_fname)
+# 都道府県別のデータも記録しておく
+age_row_df = pd.read_excel(url, sheet_name="都道府県別（人口）", header=3, index_col=0).iloc[0:47].astype(int)
+row = pd.DataFrame(age_row_df.stack())
+row.columns=[latest_dt_str]
+row = row.T
+age_data_fname = "data/CoVid19-Japan-vaccine_pref_by_age.csv"
+age_df = pd.read_csv(age_data_fname, index_col=0, header=[0,1])
+if latest_dt_str not in age_df.index:
+    age_df = age_df.append(row)
+    age_df.to_csv(age_data_fname)
