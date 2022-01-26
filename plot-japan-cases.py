@@ -13,23 +13,23 @@ JP_pref_of = dict(zip(EN_pref, JP_pref))
 # 新規感染者
 new_case = pd.read_csv('https://covid19.mhlw.go.jp/public/opendata/newly_confirmed_cases_daily.csv')
 new_case["Date"] = pd.to_datetime(new_case["Date"])
-new_case = new_case.set_index(["Date", "Prefecture"])
+new_case = new_case.set_index("Date")
 # 累積死亡者
 total_death = pd.read_csv("https://covid19.mhlw.go.jp/public/opendata/deaths_cumulative_daily.csv")
 total_death["Date"] = pd.to_datetime(total_death["Date"])
-total_death = total_death.set_index(["Date", "Prefecture"])
+total_death = total_death.set_index("Date")
 # 入院治療
 hospitalized_case = pd.read_csv("https://covid19.mhlw.go.jp/public/opendata/requiring_inpatient_care_etc_daily.csv")
 hospitalized_case["Date"] = pd.to_datetime(hospitalized_case["Date"])
-hospitalized_case = hospitalized_case.set_index(["Date", "Prefecture"])
+hospitalized_case = hospitalized_case.set_index("Date")
 # 重症者
 severe_case = pd.read_csv("https://covid19.mhlw.go.jp/public/opendata/severe_cases_daily.csv")
 severe_case["Date"] = pd.to_datetime(severe_case["Date"])
-severe_case = severe_case.set_index(["Date", "Prefecture"])
-hospitalized_case
-# 各県の累積陽性数のオーダーを取得する
-total_case = new_case[new_case.index.get_level_values("Prefecture") != "ALL"].groupby("Prefecture").sum()
-total_case_order = np.log10(total_case.max()).astype(int).values[0] + 1
+severe_case = severe_case.set_index("Date")
+# 全国および各県の累積陽性数のオーダーを取得する
+total_case = new_case["ALL"]
+total_case_order = np.log10(total_case.sum()).astype(int)+1
+pref_case_order = np.log10(new_case.loc[:,"Hokkaido":].sum(axis=0).max()).astype(int)+1
 # グラフ描画関数
 def plot_pref(pref_set):
     cols = 3
@@ -40,10 +40,10 @@ def plot_pref(pref_set):
             a = ax[pid]
         else:
             a = ax[pid//cols, pid%cols]
-        nc = new_case.xs(pref, level=1).iloc[:,0] # 当該県の新規陽性数
-        td = total_death.xs(pref, level=1).iloc[:,0] # 当該県の死亡数
-        hc = hospitalized_case.xs(pref, level=1).iloc[:,0] # 当該県の入院治療を必要とする人数
-        sc = severe_case.xs(pref, level=1).iloc[:,0] # 当該県の重症数
+        nc = new_case[pref] # 当該県の新規陽性数
+        td = total_death[pref] # 当該県の死亡数
+        hc = hospitalized_case["({:s}) Requiring inpatient care".format(pref)] # 当該県の入院治療を必要とする人数
+        sc = severe_case[pref] # 当該県の重症数
         # 累積陽性・死亡数
         a.plot( nc.cumsum(), label="累積陽性数", color="C0", lw=2, zorder=10 )
         a.plot( td, label="累積死亡数", color="C1", lw=2, zorder=10 )
@@ -55,11 +55,11 @@ def plot_pref(pref_set):
         a.plot( sc, color="C4", label="重症数", ls='--' )
         # グラフの縦軸を整える
         a.set_yscale('log')
-        if pref != "ALL":
+        if pref == "ALL":
             a.set_ylim([1,10**total_case_order])
-        else:
-            a.set_ylim([1, a.get_ylim()[1]])
             a.legend(loc='upper left')
+        else:
+            a.set_ylim([1, 10**pref_case_order])
         a.set_title(JP_pref_of[pref])
         ## x軸の主目盛りを修正
         a.xaxis.set_major_locator(mdates.MonthLocator()) # 主目盛りを月ごとに設定
