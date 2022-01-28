@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt, dates as mdates
 import japanize_matplotlib
-import datetime
+import datetime as dt
 # 県名の英語/日本語対応
 EN_pref = ['ALL', 'Hokkaido', 'Aomori', 'Iwate', 'Miyagi', 'Akita', 'Yamagata', 'Fukushima', 'Ibaraki', 'Tochigi', 'Gunma', 'Saitama', 'Chiba', 'Tokyo', 'Kanagawa', 'Niigata', 'Toyama', 'Ishikawa', 'Fukui', 'Yamanashi', 'Nagano', 'Gifu', 'Shizuoka', 'Aichi', 'Mie', 
            'Shiga', 'Kyoto', 'Osaka', 'Hyogo', 'Nara','Wakayama','Tottori', 'Shimane', 'Okayama', 'Hiroshima', 'Yamaguchi', 'Tokushima', 'Kagawa', 'Ehime', 'Kochi', 'Fukuoka', 'Saga', 'Nagasaki', 'Kumamoto', 'Oita', 'Miyazaki','Kagoshima','Okinawa']
@@ -74,3 +74,35 @@ for sid in range(4):
     pref_set = EN_pref[sid*12:(sid+1)*12]
     fig, ax = plot_pref(pref_set)
     fig.savefig('fig/CoVid19-Japan-cases_by_pref-{}.png'.format(sid), bbox_inches='tight')
+
+# 直近 12週間の陽性数を地域別にプロット
+regions = {'北海道・東北':['Hokkaido', 'Aomori', 'Akita', 'Iwate', 'Miyagi', 'Yamagata', 'Fukushima'],
+           '関東':['Tokyo', 'Ibaraki', 'Tochigi', 'Gunma', 'Saitama', 'Chiba', 'Kanagawa'],
+           '北陸・中部':['Niigata', 'Toyama', 'Ishikawa', 'Fukui','Yamanashi', 'Nagano', 'Gifu', 'Shizuoka', 'Aichi'],
+           '近畿':['Kyoto', 'Osaka', 'Mie', 'Shiga', 'Hyogo', 'Nara', 'Wakayama'],
+           '中国':['Tottori', 'Shimane', 'Okayama', 'Hiroshima', 'Yamaguchi'],
+           '四国':['Tokushima', 'Kagawa', 'Ehime', 'Kochi'],
+           '九州・沖縄':['Fukuoka', 'Saga', 'Nagasaki', 'Oita', 'Kumamoto', 'Miyazaki', 'Kagoshima', 'Okinawa']}
+recent_date = dt.datetime.today()-dt.timedelta(weeks = 9) # 17週間前の日付を取得(最初の1週間は移動平均に使うので)
+recent_nc = new_case[new_case.index > recent_date].rolling(7).mean().dropna()
+fig, axs = plt.subplots(4,2,figsize=(8*2,6*4))
+axs = axs.flatten()
+for rid in range(len(regions)+1):
+    ax = axs[rid]
+    if rid == 0:
+        recent_nc["ALL"].plot(ax=ax, label=JP_pref_of["ALL"])
+        ax.set_ylabel("陽性数")
+    else:
+        region_name = list(regions.keys())[rid-1]
+        region_df = recent_nc[regions[region_name]]
+        region_df.columns = [JP_pref_of[p] for p in regions[region_name]]
+        region_df.plot(ax=ax)
+        ax.set_ylim([1,ax.get_ylim()[1]])
+    ax.set_yscale('log')
+    ax.set_xlabel("")
+    ax.legend(loc='lower left')
+    ax.xaxis.set_major_locator(mdates.MonthLocator()) # 主目盛りを月ごとに設定
+    ax.xaxis.set_major_formatter(mdates.DateFormatter("%y %b")) # 主目盛りの表示を英語の月名短縮形にする
+    ax.grid(which='major', axis='x', linestyle='-', color='tab:cyan', alpha=0.5) # 主目盛りのグリッドを水色にして，半透明にする
+    plt.setp(ax.get_xticklabels(which='major'), rotation=90)
+fig.savefig('fig/CoVid19-Japan-recent-cases_by_area.png', bbox_inches='tight')
