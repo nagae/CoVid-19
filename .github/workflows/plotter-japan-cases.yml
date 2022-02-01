@@ -28,6 +28,7 @@ jobs:
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
           EMAIL_RECIPIENT: ${{ secrets.EMAIL_RECIPIENT }}
         run: python plot-japan-cases.py
+        run: python check-plot-japan-cases_recent.ipynb
           
       - name: commit files
         run: |
