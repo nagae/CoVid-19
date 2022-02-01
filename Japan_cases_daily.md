@@ -20,6 +20,13 @@
 - 県別グラフは，縦軸のスケールを最大の累積陽性数に合わせてある． 
 - どのグラフも，縦軸の最小値を (1=10^0) としているため， 新規死亡数の7日間平均が1を下回っていると，見かけ上の新規死亡数がプロットされない．
 
+## 直近16週間
+<a href="https://github.com/nagae/CoVid-19/raw/main/fig/CoVid19-Japan-cases_by_pref-0-recent.png"><img src="https://github.com/nagae/CoVid-19/raw/main/fig/CoVid19-Japan-cases_by_pref-0-recent.png" alt="Japan CoVid-19 daily situation" width="800" /></a>
+<a href="https://github.com/nagae/CoVid-19/raw/main/fig/CoVid19-Japan-cases_by_pref-1-recent.png"><img src="https://github.com/nagae/CoVid-19/raw/main/fig/CoVid19-Japan-cases_by_pref-1-recent.png" alt="Japan CoVid-19 daily situation" width="800" /></a>
+<a href="https://github.com/nagae/CoVid-19/raw/main/fig/CoVid19-Japan-cases_by_pref-2-recent.png"><img src="https://github.com/nagae/CoVid-19/raw/main/fig/CoVid19-Japan-cases_by_pref-2-recent.png" alt="Japan CoVid-19 daily situation" width="800" /></a>
+<a href="https://github.com/nagae/CoVid-19/raw/main/fig/CoVid19-Japan-cases_by_pref-3-recent.png"><img src="https://github.com/nagae/CoVid-19/raw/main/fig/CoVid19-Japan-cases_by_pref-3-recent.png" alt="Japan CoVid-19 daily situation" width="800" /></a>
+
+## 全期間
 <a href="https://github.com/nagae/CoVid-19/raw/main/fig/CoVid19-Japan-cases_by_pref-0.png"><img src="https://github.com/nagae/CoVid-19/raw/main/fig/CoVid19-Japan-cases_by_pref-0.png" alt="Japan CoVid-19 daily situation" width="800" /></a>
 <a href="https://github.com/nagae/CoVid-19/raw/main/fig/CoVid19-Japan-cases_by_pref-1.png"><img src="https://github.com/nagae/CoVid-19/raw/main/fig/CoVid19-Japan-cases_by_pref-1.png" alt="Japan CoVid-19 daily situation" width="800" /></a>
 <a href="https://github.com/nagae/CoVid-19/raw/main/fig/CoVid19-Japan-cases_by_pref-2.png"><img src="https://github.com/nagae/CoVid-19/raw/main/fig/CoVid19-Japan-cases_by_pref-2.png" alt="Japan CoVid-19 daily situation" width="800" /></a>
