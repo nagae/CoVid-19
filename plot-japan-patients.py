@@ -54,8 +54,8 @@ ax7.grid(axis='y')
 ax7.set_yscale('log')
 ax7.set_xlim(df.index[0], df.index[-1])
 
-#fig.savefig("fig/CoVid19-Japan-patients_by_age.png", bbox_inches='tight')
-#print("Wrote: fig/CoVid19-Japan-patients_by_age.png")
-plt.show()
+fig.savefig("fig/CoVid19-Japan-patients_by_age.png", bbox_inches='tight')
+print("Wrote: fig/CoVid19-Japan-patients_by_age.png")
+#plt.show()
 
 
