@@ -18,8 +18,9 @@ ax0.set_title("a) 新規陽性者数(一週間あたり)")
 df["死亡者数"].loc[:,:"80歳以上"].diff().plot(kind='bar', stacked="True", ax=ax1)
 ax1.set_xticklabels(df.index.strftime("%y-%m-%d").to_list())
 ax1.set_title("b) 新規死亡者数(一週間あたり)")
-ylim1 = ax1.get_ylim()
-ax1.set_ylim((0,ylim1[1]))
+df1 = df["死亡者数"].loc[:,"合計"].diff().dropna()
+ylim1 = df1[df1.index!=dt.datetime(2021,9,28)].max()
+ax1.set_ylim((0,ylim1))
 # 2行目
 df["入院者数"].loc[:,:"不明等"].plot(kind='bar', stacked="True", ax=ax2)
 ax2.set_xticklabels(df.index.strftime("%y-%m-%d").to_list())
@@ -53,7 +54,8 @@ ax7.grid(axis='y')
 ax7.set_yscale('log')
 ax7.set_xlim(df.index[0], df.index[-1])
 
-fig.savefig("fig/CoVid19-Japan-patients_by_age.png", bbox_inches='tight')
-print("Wrote: fig/CoVid19-Japan-patients_by_age.png")
+#fig.savefig("fig/CoVid19-Japan-patients_by_age.png", bbox_inches='tight')
+#print("Wrote: fig/CoVid19-Japan-patients_by_age.png")
+plt.show()
 
 
