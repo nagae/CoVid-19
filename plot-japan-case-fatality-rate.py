@@ -44,7 +44,7 @@ for rid in range(len(regions)+1):
         region_df = CFR[regions[region_name]]
         region_df.columns = [JP_pref_of[p] for p in regions[region_name]]
         region_df.plot(ax=ax)
-    ax.set_ylim(axs[0].get_ylim())
+    ax.set_ylim(0, axs[0].get_ylim()[1])
 #    ax.set_yscale('log')
     ax.set_xlabel("")
     ax.legend(loc='lower left')
