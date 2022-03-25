@@ -27,7 +27,7 @@ jobs:
           EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
           EMAIL_RECIPIENT: ${{ secrets.EMAIL_RECIPIENT }}
-        run: 
+        run: |
           python plot-japan-daily.py
           python plot-japan-case-fatality-rate.py
           
