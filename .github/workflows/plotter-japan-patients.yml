@@ -2,6 +2,8 @@ name: plotter-japan-weekly-patients
 on:
   workflow_dispatch:
   push:
+    paths:
+      - 'data/CoVid19-Japan-weekly_patients_by_age.csv'
 
 jobs:
   build:
