@@ -38,24 +38,37 @@ ax5.set_xticklabels(df.index.strftime("%y-%m-%d").to_list())
 ax5.set_title("f) 累積陽性者数あたりの述べ重症者数(人×週)")
 ax5.set_xlim(df.index[0], df.index[-1])
 # 4行目
-(df["重症者数"].loc[:,:"80歳以上"]/df["入院者数"].loc[:,:"80歳以上"]).plot(ax=ax6, xticks=df.index, rot=90)
+#(df["重症者数"].loc[:,:"80歳以上"]/df["入院者数"].loc[:,:"80歳以上"]).plot(ax=ax6, xticks=df.index, rot=90)
+#ax6.set_xticklabels(df.index.strftime("%y-%m-%d").to_list())
+#ax6.set_title("g) 入院者数に対する重症者数の比率")
+#ax6.legend(loc="upper left")
+#ax6.grid(axis='y')
+#ax6.set_ylim((0,0.04))
+#ax6.set_xlim(df.index[0], df.index[-1])
+
+cases_reg=df["陽性者数"].loc[:,:"80歳以上"]/1e6
+(df["死亡者数"].loc[:,:"80歳以上"]/cases_reg).plot(ax=ax6, xticks=df.index, rot=90)
 ax6.set_xticklabels(df.index.strftime("%y-%m-%d").to_list())
-ax6.set_title("g) 入院者数に対する重症者数の比率")
+ax6.set_title("g) 総陽性者100万人あたりの総死亡者数")
 ax6.legend(loc="upper left")
 ax6.grid(axis='y')
-ax6.set_ylim((0,0.04))
+ax6.set_yscale('log')
+ax6.set_yticklabels(["{:d}".format(int(n)) for n in ax6.get_yticks()])
 ax6.set_xlim(df.index[0], df.index[-1])
-# 5行目
-(df["死亡者数"].loc[:,:"80歳以上"]/df["陽性者数"].loc[:,:"80歳以上"]).plot(ax=ax7, xticks=df.index, rot=90)
+#print(np.array(ax6.get_yticks()))
+#print(ax6.get_yticklabels())
+
+nc=df["陽性者数"].loc[:,:"80歳以上"][::-1].diff().dropna().astype(int).cumsum()[::-1]
+nd=df["死亡者数"].loc[:,:"80歳以上"][::-1].diff().dropna().astype(int).cumsum()[::-1]
+(nd/nc*1e6).plot(ax=ax7, xticks=df.index, rot=90)
 ax7.set_xticklabels(df.index.strftime("%y-%m-%d").to_list())
-ax7.set_title("h) 累積陽性者あたりの累積死亡者数")
-ax7.legend(loc="upper left")
-ax7.grid(axis='y')
+ax7.set_title("h) 当該日以降の累積陽性者100万人あたりの累積死亡者数")
 ax7.set_yscale('log')
+ax7.grid(axis='y')
+ax7.set_yticklabels(["{:d}".format(int(n)) for n in ax6.get_yticks()])
+ax7.legend(loc='upper left')
 ax7.set_xlim(df.index[0], df.index[-1])
 
 fig.savefig("fig/CoVid19-Japan-patients_by_age.png", bbox_inches='tight')
 print("Wrote: fig/CoVid19-Japan-patients_by_age.png")
 #plt.show()
-
-
