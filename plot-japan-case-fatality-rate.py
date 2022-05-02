@@ -28,4 +28,6 @@ ax.plot(p*1e3, lw=3)
 ax.legend()
 ax.set_ylabel("death per 1000 cases")
 ax.set_title("ある日以降の陽性者1000人あたりの死亡数")
+ax.grid(axis='y')
 fig.savefig('fig/CoVid19-Japan-case_fatility_rate.png', bbox_inches='tight')
+
