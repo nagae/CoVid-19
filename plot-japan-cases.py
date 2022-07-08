@@ -18,6 +18,8 @@ new_case = new_case.set_index("Date")
 total_death = pd.read_csv("https://covid19.mhlw.go.jp/public/opendata/deaths_cumulative_daily.csv")
 total_death["Date"] = pd.to_datetime(total_death["Date"])
 total_death = total_death.set_index("Date")
+# 新規死亡者
+new_death = total_death.diff()
 # 入院治療
 hospitalized_case = pd.read_csv("https://covid19.mhlw.go.jp/public/opendata/requiring_inpatient_care_etc_daily.csv")
 hospitalized_case["Date"] = pd.to_datetime(hospitalized_case["Date"])
@@ -75,7 +77,10 @@ for sid in range(4):
     fig, ax = plot_pref(pref_set)
     fig.savefig('fig/CoVid19-Japan-cases_by_pref-{}.png'.format(sid), bbox_inches='tight')
 
+#
 # 直近 12週間の陽性数を地域別にプロット
+#
+weeks = 12 # 週数
 regions = {'北海道・東北':['Hokkaido', 'Aomori', 'Akita', 'Iwate', 'Miyagi', 'Yamagata', 'Fukushima'],
            '関東':['Tokyo', 'Ibaraki', 'Tochigi', 'Gunma', 'Saitama', 'Chiba', 'Kanagawa'],
            '北陸・中部':['Niigata', 'Toyama', 'Ishikawa', 'Fukui','Yamanashi', 'Nagano', 'Gifu', 'Shizuoka', 'Aichi'],
@@ -83,26 +88,85 @@ regions = {'北海道・東北':['Hokkaido', 'Aomori', 'Akita', 'Iwate', 'Miyagi
            '中国':['Tottori', 'Shimane', 'Okayama', 'Hiroshima', 'Yamaguchi'],
            '四国':['Tokushima', 'Kagawa', 'Ehime', 'Kochi'],
            '九州・沖縄':['Fukuoka', 'Saga', 'Nagasaki', 'Oita', 'Kumamoto', 'Miyazaki', 'Kagoshima', 'Okinawa']}
-recent_date = dt.datetime.today()-dt.timedelta(weeks = 9) # 17週間前の日付を取得(最初の1週間は移動平均に使うので)
+recent_date = dt.datetime.today()-dt.timedelta(weeks = weeks) # 17週間前の日付を取得(最初の1週間は移動平均に使うので)
 recent_nc = new_case[new_case.index > recent_date].rolling(7).mean().dropna()
+# y軸のオーダーを取得
+yscale = "linear" # ここを log にすれば対数プロット
+if yscale == "log":
+    # 対数にする場合
+    total_nc_order = np.log10(recent_nc["ALL"].max()).astype(int)+1
+    pref_nc_order = np.log10(recent_nc.loc[:,"Hokkaido":].max().max()).astype(int)+1
+    total_ylim = (1,10**total_nc_order)
+    pref_ylim = (1,10**pref_nc_order)
+else:
+    # 線形にする場合
+    total_nc_order = (recent_nc["ALL"].max()*1.1).astype(int)+1
+    pref_nc_order = (recent_nc.loc[:,"Hokkaido":].max().max()*1.1).astype(int)+1
+    total_ylim = (0,total_nc_order)
+    pref_ylim = (0,pref_nc_order)
+    
+# 図の準備
 fig, axs = plt.subplots(4,2,figsize=(8*2,6*4))
 axs = axs.flatten()
 for rid in range(len(regions)+1):
     ax = axs[rid]
     if rid == 0:
         recent_nc["ALL"].plot(ax=ax, label=JP_pref_of["ALL"])
-        ax.set_ylabel("陽性数")
+        ax.set_ylabel("日次陽性数")
+        ax.set_ylim(total_ylim)
     else:
         region_name = list(regions.keys())[rid-1]
         region_df = recent_nc[regions[region_name]]
         region_df.columns = [JP_pref_of[p] for p in regions[region_name]]
         region_df.plot(ax=ax)
-        ax.set_ylim([1,ax.get_ylim()[1]])
-    ax.set_yscale('log')
+        ax.set_ylim(pref_ylim)
+    ax.set_yscale(yscale)
     ax.set_xlabel("")
-    ax.legend(loc='lower left')
+    ax.legend(loc='upper left')
     ax.xaxis.set_major_locator(mdates.MonthLocator()) # 主目盛りを月ごとに設定
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%y %b")) # 主目盛りの表示を英語の月名短縮形にする
     ax.grid(which='major', axis='x', linestyle='-', color='tab:cyan', alpha=0.5) # 主目盛りのグリッドを水色にして，半透明にする
     plt.setp(ax.get_xticklabels(which='major'), rotation=90)
-fig.savefig('fig/CoVid19-Japan-recent-cases_by_area.png', bbox_inches='tight')
+plt.savefig('fig/CoVid19-Japan-recent-cases_by_area.png', bbox_inches='tight')
+
+#
+# 直近 12週間の死亡者数を地域別にプロット
+#
+recent_nd = new_death[new_death.index > recent_date].rolling(7).mean().dropna()
+# y軸のオーダーを取得
+yscale = "linear" # ここを log にすれば対数プロット
+if yscale == "log":
+    # 対数にする場合
+    total_nd_order = np.log10(recent_nd["ALL"].max()).astype(int)+1
+    pref_nd_order = np.log10(recent_nd.loc[:,"Hokkaido":].max().max()).astype(int)+1
+    total_ylim = (1,10**total_nd_order)
+    pref_ylim = (1,10**pref_nd_order)
+else:
+    # 線形にする場合
+    total_nd_order = (recent_nd["ALL"].max()*1.1).astype(int)+1
+    pref_nd_order = (recent_nd.loc[:,"Hokkaido":].max().max()*1.1).astype(int)+1
+    total_ylim = (0,total_nd_order)
+    pref_ylim = (0,pref_nd_order)
+
+fig, axs = plt.subplots(4,2,figsize=(8*2,6*4))
+axs = axs.flatten()
+for rid in range(len(regions)+1):
+    ax = axs[rid]
+    if rid == 0:
+        recent_nd["ALL"].plot(ax=ax, label=JP_pref_of["ALL"])
+        ax.set_ylabel("日次死亡数")
+        ax.set_ylim(total_ylim)
+    else:
+        region_name = list(regions.keys())[rid-1]
+        region_df = recent_nd[regions[region_name]]
+        region_df.columns = [JP_pref_of[p] for p in regions[region_name]]
+        region_df.plot(ax=ax)
+        ax.set_ylim(pref_ylim)
+    ax.set_yscale(yscale)
+    ax.set_xlabel("")
+    ax.legend(loc='upper left')
+    ax.xaxis.set_major_locator(mdates.MonthLocator()) # 主目盛りを月ごとに設定
+    ax.xaxis.set_major_formatter(mdates.DateFormatter("%y %b")) # 主目盛りの表示を英語の月名短縮形にする
+    ax.grid(which='major', axis='x', linestyle='-', color='tab:cyan', alpha=0.5) # 主目盛りのグリッドを水色にして，半透明にする
+    plt.setp(ax.get_xticklabels(which='major'), rotation=90)
+plt.savefig('fig/CoVid19-Japan-recent-deaths_by_area.png', bbox_inches='tight')
