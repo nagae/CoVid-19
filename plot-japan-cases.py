@@ -170,3 +170,46 @@ for rid in range(len(regions)+1):
     ax.grid(which='major', axis='x', linestyle='-', color='tab:cyan', alpha=0.5) # 主目盛りのグリッドを水色にして，半透明にする
     plt.setp(ax.get_xticklabels(which='major'), rotation=90)
 plt.savefig('fig/CoVid19-Japan-recent-deaths_by_area.png', bbox_inches='tight')
+
+#
+# 直近 12週間の重症数を地域別にプロット
+#
+recent_sc = severe_case[severe_case.index > recent_date].rolling(7).mean().dropna()
+recent_sc = severe_case[severe_case.index > recent_date]
+# y軸のオーダーを取得
+yscale = "linear" # ここを log にすれば対数プロット
+if yscale == "log":
+    # 対数にする場合
+    total_order = np.log10(recent_sc["ALL"].max()).astype(int)+1
+    pref_order = np.log10(recent_sc.loc[:,"Hokkaido":].max().max()).astype(int)+1
+    total_ylim = (1,10**total_order)
+    pref_ylim = (1,10**pref_order)
+else:
+    # 線形にする場合
+    total_order = (recent_sc["ALL"].max()*1.1).astype(int)+1
+    pref_order = (recent_sc.loc[:,"Hokkaido":].max().max()*1.1).astype(int)+1
+    total_ylim = (0,total_order)
+    pref_ylim = (0,pref_order)
+
+fig, axs = plt.subplots(4,2,figsize=(8*2,6*4))
+axs = axs.flatten()
+for rid in range(len(regions)+1):
+    ax = axs[rid]
+    if rid == 0:
+        recent_sc["ALL"].plot(drawstyle="steps", ax=ax, label=JP_pref_of["ALL"])
+        ax.set_ylabel("重症者数")
+        ax.set_ylim(total_ylim)
+    else:
+        region_name = list(regions.keys())[rid-1]
+        region_df = recent_sc[regions[region_name]]
+        region_df.columns = [JP_pref_of[p] for p in regions[region_name]]
+        region_df.plot(drawstyle="steps", ax=ax)
+        ax.set_ylim(pref_ylim)
+    ax.set_yscale(yscale)
+    ax.set_xlabel("")
+    ax.legend(loc='upper left')
+    ax.xaxis.set_major_locator(mdates.MonthLocator()) # 主目盛りを月ごとに設定
+    ax.xaxis.set_major_formatter(mdates.DateFormatter("%y %b")) # 主目盛りの表示を英語の月名短縮形にする
+    ax.grid(which='major', axis='x', linestyle='-', color='tab:cyan', alpha=0.5) # 主目盛りのグリッドを水色にして，半透明にする
+    plt.setp(ax.get_xticklabels(which='major'), rotation=90)
+plt.savefig('fig/CoVid19-Japan-recent-severe_cases_by_area.png', bbox_inches='tight')
