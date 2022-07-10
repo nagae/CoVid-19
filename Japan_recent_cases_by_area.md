@@ -11,4 +11,4 @@
 ## 新規死亡者数
 <a href="https://github.com/nagae/CoVid-19/raw/main/fig/CoVid19-Japan-recent-deaths_by_area.png"><img src="https://github.com/nagae/CoVid-19/raw/main/fig/CoVid19-Japan-recent-deaths_by_area.png" alt="Japan CoVid-19 recent daily death" width="800" /></a>
 ## 重症者数
-<a href="https://github.com/nagae/CoVid-19/raw/main/fig/CoVid19-Japan-recent-servere_cases_by_area.png"><img src="https://github.com/nagae/CoVid-19/raw/main/fig/CoVid19-Japan-recent-severe_cases_by_area.png" alt="Japan CoVid-19 recent severe cases" width="800" /></a>
+<a href="https://github.com/nagae/CoVid-19/raw/main/fig/CoVid19-Japan-recent-severe_cases_by_area.png"><img src="https://github.com/nagae/CoVid-19/raw/main/fig/CoVid19-Japan-recent-severe_cases_by_area.png" alt="Japan CoVid-19 recent severe cases" width="800" /></a>
