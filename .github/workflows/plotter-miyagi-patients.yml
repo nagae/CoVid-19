@@ -28,7 +28,7 @@ jobs:
           EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
           EMAIL_RECIPIENT: ${{ secrets.EMAIL_RECIPIENT }}
-        run: python plot-miyagi-patients.py
+        run: python covid19-plot-miyagi-daily.py
           
       - name: commit files
         run: |
