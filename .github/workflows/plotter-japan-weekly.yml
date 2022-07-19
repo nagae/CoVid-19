@@ -1,4 +1,4 @@
-name: plotter-japan-weekly-patients
+name: plotter-japan-weekly
 on:
   workflow_dispatch:
   push:
