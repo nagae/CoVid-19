@@ -1,4 +1,4 @@
-name: plotter-miyagi-patients
+name: plotter-miyagi-daily
 on:
   workflow_dispatch:
   schedule:
