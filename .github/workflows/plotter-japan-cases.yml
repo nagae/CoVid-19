@@ -28,7 +28,7 @@ jobs:
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
           EMAIL_RECIPIENT: ${{ secrets.EMAIL_RECIPIENT }}
         run: |
-          python covid19-plot-japan.py
+          python covid19-plot-japan-daily.py
           
       - name: commit files
         run: |
