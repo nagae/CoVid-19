@@ -1,5 +1,5 @@
 # 全国の感染状況の推移1（日次・県別：陽性数・死亡数・入院数・重症数）
-データ元:厚生労働省「新型コロナウィルス感染症について」
+データ元:厚生労働省[「新型コロナウィルス感染症について」](https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/0000164708_00001.html)
 1. [オープンデータ](https://www.mhlw.go.jp/stf/covid-19/open-data.html)
 2. [療養状況等及び入院患者受入病床数等に関する調査について](https://www.mhlw.go.jp/stf/seisakunitsuite/newpage_00023.html)を整理した下記サイト:  
 [CoVid-19 JAPAN新型コロナウィルス対策ダッシュボード](https://www.stopcovid19.jp/data/covid19japan_beds/all.csv)
