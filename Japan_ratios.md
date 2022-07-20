@@ -7,6 +7,4 @@
 <a href="https://github.com/nagae/CoVid-19/raw/main/fig/CoVid19-Japan-ratios_by_area.png">
 <img src="https://github.com/nagae/CoVid-19/raw/main/fig/CoVid19-Japan-ratios_by_area.png" alt="Japan CoVid-19 hospitalized/severe cases/new deaths per patients" width="800" /></a>
 
-## 全国版． キャプションに情報源を入れたもの
-<a href="https://github.com/nagae/CoVid-19/raw/main/fig/CoVid19-Japan-ratios.png">
-<img src="https://github.com/nagae/CoVid-19/raw/main/fig/CoVid19-Japan-ratios.png" alt="Japan CoVid-19 hospitalized/severe cases/new deaths per patients" width="800" /></a>
+[全国版(キャプションに情報源を入れたもの)](https://github.com/nagae/CoVid-19/raw/main/fig/CoVid19-Japan-ratios.png)
