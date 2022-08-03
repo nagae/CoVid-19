@@ -132,7 +132,7 @@ prefs_in = {'全国': ['ALL'],
            '中国':['Tottori', 'Shimane', 'Okayama', 'Hiroshima', 'Yamaguchi'],
            '四国':['Tokushima', 'Kagawa', 'Ehime', 'Kochi'],
            '九州・沖縄':['Fukuoka', 'Saga', 'Nagasaki', 'Oita', 'Kumamoto', 'Miyazaki', 'Kagoshima', 'Okinawa']}
-def plot_by_area(in_df, back_weeks=-1, yscale="log", is_step=False): # 
+def plot_by_area(in_df, back_weeks=-1, yscale="log", is_step=False, total_ylim=None, pref_ylim=None): # 
     rows = 4
     cols = 2
     fig, ax_tab = plt.subplots(rows, cols, figsize=(8*cols,6*rows))
@@ -152,17 +152,25 @@ def plot_by_area(in_df, back_weeks=-1, yscale="log", is_step=False): #
     max_df = in_df.groupby(level=0).max()
     min_df = in_df.groupby(level=0).min()
     if yscale=='log':
-        max_order = np.ceil(np.log10(in_df.groupby(level=0).max()))
-        min_order = np.floor(np.log10(in_df.groupby(level=0).min()))
-        total_max_order = max_order["ALL"]
-        pref_max_order = max_order.iloc[1:].max()
-        total_min_order = min_order["ALL"]
-        pref_min_order = min_order.iloc[1:].min()
-        total_ylim = [10**total_min_order, 10**total_max_order]
-        pref_ylim = [10**pref_min_order, 10**pref_max_order]
+        if total_ylim is None:
+            max_order = np.ceil(np.log10(in_df.groupby(level=0).max()))
+            min_order = np.floor(np.log10(in_df.groupby(level=0).min()))
+            total_max_order = max_order["ALL"]
+            total_min_order = min_order["ALL"]
+            total_ylim = [10**total_min_order, 10**total_max_order]
+        if pref_ylim is None:
+            pref_max_order = max_order.iloc[1:].max()
+            pref_min_order = min_order.iloc[1:].min()
+            pref_ylim = [10**pref_min_order, 10**pref_max_order]
+        print("total_ylim", total_ylim)
+        print("pref_ylim", pref_ylim)
     else:
-        total_ylim = [0, max_df["ALL"]*1.1]
-        pref_ylim = [0, max_df.iloc[1:].max()*1.1]
+        if total_ylim is None:
+            total_ylim = [0, max_df["ALL"]*1.1]
+        if pref_ylim is None:
+            pref_ylim = [0, max_df.iloc[1:].max()*1.1]
+        print("total_ylim", total_ylim)
+        print("pref_ylim", pref_ylim)
 
     for rid, region in enumerate(prefs_in):
         ax = axs[rid]
@@ -187,10 +195,9 @@ def plot_by_area(in_df, back_weeks=-1, yscale="log", is_step=False): #
         ax.xaxis.set_major_formatter(mdates.DateFormatter("%y %b")) # 主目盛りの表示を英語の月名短縮形にする
         ax.grid(which='major', axis='x', linestyle='-', color='tab:cyan', alpha=0.5) # 主目盛りのグリッドを水色にして，半透明にする
         ax.grid(which='major', axis='y', linestyle='-', color='tab:grey', alpha=0.5) # y軸主目盛りのグリッドを灰色にして，半透明にする
-        plt.setp(ax.get_xticklabels(which='major'), rotation=90)
+        plt.setp(ax.get_xticklabels(which='major'), rotation=90) # 90度回転
 
     return in_df, fig, axs
-
 #
 bw = 12 # どれだけ遡るか
 tw = 7 # 移動平均
@@ -231,6 +238,16 @@ nd_by_pt = jp_df.deaths/jp_df.patients
 nd_by_pt = nd_by_pt[(jp_df.deaths>0) & (jp_df.patients>0)].rolling(7).mean()
 tdf, fig, ax = plot_by_area(nd_by_pt, back_weeks=52, yscale="log")
 fig.savefig("fig/CoVid19-Japan-deaths_per_patients_by_area.png", bbox_inches='tight')
+
+# 実効再生産数(「1週間あたりの感染者数」同士の「世代時間前」との比）
+tw = 7 # 発生期間
+gd = 5 # 世代時間
+cc = jp_df.cases.cumsum().diff(tw)
+Rt = (cc/cc.shift(gd))
+tdf, fig, axs = plot_by_area(Rt, back_weeks=12, yscale="linear", total_ylim=[0,2.5], pref_ylim=[0,2.5])
+for ax in axs:
+    ax.hlines(1.0, *ax.get_xlim(), linestyle='--', alpha=0.8)
+fig.savefig("fig/CoVid19-Japan-Rt_by_area.png", bbox_inches='tight')
 
 #
 # 地域ごとに集計化された患者あたりの入院者，重症者，死亡率をプロット
