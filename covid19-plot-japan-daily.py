@@ -221,6 +221,16 @@ sc = jp_df.severe_cases
 tdf, fig, ax = plot_by_area(sc, back_weeks=bw, yscale="linear", is_step=True)
 fig.savefig("fig/CoVid19-Japan-recent-severe_cases_by_area.png", bbox_inches='tight')
 
+# 実効再生産数(「1週間あたりの感染者数」同士の「世代時間前」との比）
+tw = 7 # 発生期間
+gd = 5 # 世代時間
+cc = jp_df.cases.cumsum().diff(tw)
+Rt = (cc/cc.shift(gd))
+tdf, fig, axs = plot_by_area(Rt, back_weeks=bw, yscale="linear", total_ylim=[0,2.5], pref_ylim=[0,2.5])
+for ax in axs:
+    ax.hlines(1.0, *ax.get_xlim(), linestyle='--', alpha=0.8)
+fig.savefig("fig/CoVid19-Japan-recent-Rt_by_area.png", bbox_inches='tight')
+
 # 患者数あたりの入院者
 hs_by_pt = jp_df.hospitalized/jp_df.patients
 hs_by_pt = hs_by_pt[(jp_df.hospitalized>0) & (jp_df.patients>0)].dropna()
@@ -239,15 +249,6 @@ nd_by_pt = nd_by_pt[(jp_df.deaths>0) & (jp_df.patients>0)].rolling(7).mean()
 tdf, fig, ax = plot_by_area(nd_by_pt, back_weeks=52, yscale="log")
 fig.savefig("fig/CoVid19-Japan-deaths_per_patients_by_area.png", bbox_inches='tight')
 
-# 実効再生産数(「1週間あたりの感染者数」同士の「世代時間前」との比）
-tw = 7 # 発生期間
-gd = 5 # 世代時間
-cc = jp_df.cases.cumsum().diff(tw)
-Rt = (cc/cc.shift(gd))
-tdf, fig, axs = plot_by_area(Rt, back_weeks=12, yscale="linear", total_ylim=[0,2.5], pref_ylim=[0,2.5])
-for ax in axs:
-    ax.hlines(1.0, *ax.get_xlim(), linestyle='--', alpha=0.8)
-fig.savefig("fig/CoVid19-Japan-Rt_by_area.png", bbox_inches='tight')
 
 #
 # 地域ごとに集計化された患者あたりの入院者，重症者，死亡率をプロット
