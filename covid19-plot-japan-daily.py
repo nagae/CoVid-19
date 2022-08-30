@@ -228,7 +228,7 @@ gd = 2 # 世代時間(オミクロン株が主流となった状況を反映さ�
 # https://toyokeizai.net/sp/visual/tko/covid19/
 cc = jp_df.cases.cumsum().diff(tw)
 Rt = (cc/cc.shift(gd))
-tdf, fig, axs = plot_by_area(Rt, back_weeks=bw, yscale="linear", total_ylim=[0,2.5], pref_ylim=[0,2.5])
+tdf, fig, axs = plot_by_area(Rt, back_weeks=bw, yscale="linear", total_ylim=[0,1.5], pref_ylim=[0,1.5])
 for ax in axs:
     ax.hlines(1.0, *ax.get_xlim(), linestyle='--', alpha=0.8)
 fig.savefig("fig/CoVid19-Japan-recent-Rt_by_area.png", bbox_inches='tight')
