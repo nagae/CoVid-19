@@ -221,13 +221,13 @@ sc = jp_df.severe_cases
 tdf, fig, ax = plot_by_area(sc, back_weeks=bw, yscale="linear", is_step=True)
 fig.savefig("fig/CoVid19-Japan-recent-severe_cases_by_area.png", bbox_inches='tight')
 
-# 実効再生産数(「1週間あたりの感染者数」同士の「世代時間前」との比）
-tw = 7 # 発生期間
+# 実効再生産数((「直近7日間の感染者数」/「その前7日間の感染者数」)^(「平均世代期間」/「報告期間」))
+tw = 7 # 発生期間・報告期間
 # gd = 5 # 世代時間
-gd = 2 # 世代時間(オミクロン株が主流となった状況を反映させるため．下記の東洋経済オンラインを参照）
+gd = 2 # 平均世代時間(オミクロン株が主流となった状況を反映させるため．下記の東洋経済オンラインを参照）
 # https://toyokeizai.net/sp/visual/tko/covid19/
 cc = jp_df.cases.cumsum().diff(tw)
-Rt = (cc/cc.shift(gd))
+Rt = (cc/cc.shift(tw))**(gd/tw)
 tdf, fig, axs = plot_by_area(Rt, back_weeks=bw, yscale="linear", total_ylim=[0,1.5], pref_ylim=[0,1.5])
 for ax in axs:
     ax.hlines(1.0, *ax.get_xlim(), linestyle='--', alpha=0.8)
