@@ -36,30 +36,28 @@ severe_url = "https://covid19.mhlw.go.jp/public/opendata/severe_cases_daily.csv"
 severe = pd.read_csv(severe_url) # データフレームに取り込む
 severe["Date"] = pd.to_datetime(severe["Date"]) # "Date"の列を文字列から日付オブジェクトに変換
 severe = severe.set_index("Date") # "Date"列をインデックスに設定
-## read_csv を使って CSV 形式のデータを読込む
-#hospitalized = pd.read_csv('https://www.stopcovid19.jp/data/covid19japan_beds/all.csv')
-## 更新日を日付データに置き換える
-#hospitalized["更新日"] = pd.to_datetime(hospitalized["更新日"])
-## なぜか未来の日付のデータが混入しているので取除く
-#hospitalized = hospitalized[hospitalized["更新日"]<=dt.datetime.today()]
-## fillna(0)でデータ欠損部分をゼロ埋めし，整数型に変換する
-#hospitalized["入院者数"] = hospitalized["入院者数"].fillna(0).astype(int)
-## read_csv を使って CSV 形式のデータを読込む
-#hospitalized = pd.read_csv('https://www.stopcovid19.jp/data/covid19japan_beds/all.csv')
-## 更新日を日付データに置き換える
-#hospitalized["更新日"] = pd.to_datetime(hospitalized["更新日"])
-## なぜか未来の日付のデータが混入しているので取除く
-#hospitalized = hospitalized[hospitalized["更新日"]<=dt.datetime.today()]
-## fillna(0)でデータ欠損部分をゼロ埋めし，整数型に変換する
-#hospitalized["入院者数"] = hospitalized["入院者数"].fillna(0).astype(int)
-#hospitalized = hospitalized.set_index(["都道府県番号","更新日"])["入院者数"].sort_index().unstack().T
-#hospitalized = pd.concat([hospitalized.sum(axis=1), hospitalized], axis=1)
-#hospitalized.columns = EN_pref
+# read_csv を使って CSV 形式のデータを読込む
+hospitalized = pd.read_csv('https://www.stopcovid19.jp/data/covid19japan_beds/all.csv')
+# 更新日を日付データに置き換える
+hospitalized["更新日"] = pd.to_datetime(hospitalized["更新日"])
+# なぜか未来の日付のデータが混入しているので取除く
+hospitalized = hospitalized[hospitalized["更新日"]<=dt.datetime.today()]
+# fillna(0)でデータ欠損部分をゼロ埋めし，整数型に変換する
+hospitalized["入院者数"] = hospitalized["入院者数"].fillna(0).astype(int)
+# read_csv を使って CSV 形式のデータを読込む
+hospitalized = pd.read_csv('https://www.stopcovid19.jp/data/covid19japan_beds/all.csv')
+# 更新日を日付データに置き換える
+hospitalized["更新日"] = pd.to_datetime(hospitalized["更新日"])
+# なぜか未来の日付のデータが混入しているので取除く
+hospitalized = hospitalized[hospitalized["更新日"]<=dt.datetime.today()]
+# fillna(0)でデータ欠損部分をゼロ埋めし，整数型に変換する
+hospitalized["入院者数"] = hospitalized["入院者数"].fillna(0).astype(int)
+hospitalized = hospitalized.set_index(["都道府県番号","更新日"])["入院者数"].sort_index().unstack().T
+hospitalized = pd.concat([hospitalized.sum(axis=1), hospitalized], axis=1)
+hospitalized.columns = EN_pref
 # マルチインデックスのデータフレームにまとめる
-#jp_df = pd.concat([cases.stack(), deaths.stack(), patients.stack(), hospitalized.stack(), severe.stack()], axis=1).swaplevel(0,1).sort_index().loc[EN_pref]
-jp_df = pd.concat([cases.stack(), deaths.stack(), patients.stack(), severe.stack()], axis=1).swaplevel(0,1).sort_index().loc[EN_pref]
-#jp_df.columns=["cases", "deaths", "patients", "hospitalized", "severe_cases"]
-jp_df.columns=["cases", "deaths", "patients", "severe_cases"]
+jp_df = pd.concat([cases.stack(), deaths.stack(), patients.stack(), hospitalized.stack(), severe.stack()], axis=1).swaplevel(0,1).sort_index().loc[EN_pref]
+jp_df.columns=["cases", "deaths", "patients", "hospitalized", "severe_cases"]
 
 
 # 全国および各県の累積陽性数のオーダーを取得する
@@ -85,7 +83,7 @@ def plot_pref(pref_set, back_weeks=-1):
         nc = jp_df.loc[pref].cases # 当該県の新規陽性数
         td = jp_df.loc[pref].deaths # 当該県の死亡数
         pt = jp_df.loc[pref].patients # 当該県の患者数
-        # hc = jp_df.loc[pref].hospitalized.dropna() # 当該県の入院者数
+        hc = jp_df.loc[pref].hospitalized.dropna() # 当該県の入院者数
         sc = jp_df.loc[pref].severe_cases # 当該県の重症数
         # 累積陽性・死亡数
         ax.plot( nc.cumsum(), label="累積陽性数", color="C0", lw=2, zorder=2 )
@@ -95,7 +93,7 @@ def plot_pref(pref_set, back_weeks=-1):
         ax.fill_between( td.index, td.rolling(7).mean(), lw=0, color="C1", label="新規死亡数",alpha=0.25 )
         # 入院・重症
         ax.plot( pt, color="C2", label="患者数", ls='--' )
-        #ax.plot( hc, color="C3", label="入院者数", ls='--')
+        ax.plot( hc, color="C3", label="入院者数", ls='--')
         ax.plot( sc, color="C4", label="重症数", ls='--' )
         # グラフの縦軸を整える
         ax.set_yscale('log')
@@ -213,10 +211,10 @@ nd = jp_df.deaths.rolling(tw).mean().dropna()
 tdf, fig, ax = plot_by_area(nd, back_weeks=bw, yscale="linear")
 fig.savefig("fig/CoVid19-Japan-recent-deaths_by_area.png", bbox_inches='tight')
 
-## 入院者数
-#hs = jp_df.hospitalized.dropna()
-#tdf, fig, ax = plot_by_area(hs, back_weeks=bw, yscale="linear", is_step=True)
-#fig.savefig("fig/CoVid19-Japan-recent-hospitalized_by_area.png", bbox_inches='tight')
+# 入院者数
+hs = jp_df.hospitalized.dropna()
+tdf, fig, ax = plot_by_area(hs, back_weeks=bw, yscale="linear", is_step=True)
+fig.savefig("fig/CoVid19-Japan-recent-hospitalized_by_area.png", bbox_inches='tight')
 
 # 重症者数
 sc = jp_df.severe_cases
@@ -235,11 +233,11 @@ for ax in axs:
     ax.hlines(1.0, *ax.get_xlim(), linestyle='--', alpha=0.8)
 fig.savefig("fig/CoVid19-Japan-recent-Rt_by_area.png", bbox_inches='tight')
 
-## 患者数あたりの入院者
-#hs_by_pt = jp_df.hospitalized/jp_df.patients
-#hs_by_pt = hs_by_pt[(jp_df.hospitalized>0) & (jp_df.patients>0)].dropna()
-#tdf, fig, ax = plot_by_area(hs_by_pt, back_weeks=52, yscale="log")
-#fig.savefig("fig/CoVid19-Japan-hospitalized_per_patients_by_area.png", bbox_inches='tight')
+# 患者数あたりの入院者
+hs_by_pt = jp_df.hospitalized/jp_df.patients
+hs_by_pt = hs_by_pt[(jp_df.hospitalized>0) & (jp_df.patients>0)].dropna()
+tdf, fig, ax = plot_by_area(hs_by_pt, back_weeks=52, yscale="log")
+fig.savefig("fig/CoVid19-Japan-hospitalized_per_patients_by_area.png", bbox_inches='tight')
 
 # 患者数あたりの重症者
 sc_by_pt = jp_df.severe_cases/jp_df.patients
@@ -266,7 +264,7 @@ plt.subplots_adjust(wspace=0.1, hspace=0.25)
 axs = ax_tab.flatten()
 
 jp_nc, jp_nd, jp_pt, jp_sc = jp_df.cases, jp_df.deaths, jp_df.patients, jp_df.severe_cases
-#jp_hs = jp_df.hospitalized.dropna()
+jp_hs = jp_df.hospitalized.dropna()
 dates = jp_pt[jp_pt>0].index.get_level_values(level=1)
 for rid, region in enumerate(prefs_in):
     ax = axs[rid]
@@ -274,11 +272,11 @@ for rid, region in enumerate(prefs_in):
     nd = jp_nd.loc[prefs_in[region]].groupby(level=1).sum()
     pt = jp_pt.loc[prefs_in[region]].groupby(level=1).sum()
     sc = jp_sc.loc[prefs_in[region]].groupby(level=1).sum()
-    #hs = jp_hs.loc[prefs_in[region]].groupby(level=1).sum()
-    #hs_pt = hs/pt[hs.index]
+    hs = jp_hs.loc[prefs_in[region]].groupby(level=1).sum()
+    hs_pt = hs/pt[hs.index]
     sc_pt = (sc/pt)[(sc>0) & (pt>0)]
     nd_pt = (nd/pt)[(nd>0) & (pt>0)].rolling(tw).mean()
-    #ax.plot(hs_pt, label="入院率")
+    ax.plot(hs_pt, label="入院率")
     ax.plot(sc_pt, label="重症率")
     ax.plot(nd_pt, label="死亡率")
     if rid == 0:
@@ -308,12 +306,12 @@ all_df = jp_df.loc["ALL"]
 nd = all_df.deaths
 pt = all_df.patients
 sc = all_df.severe_cases
-#hs = all_df.hospitalized.dropna()
+hs = all_df.hospitalized.dropna()
 dates = pt[pt>0].index
-#hs_pt = hs/pt[hs.index]
+hs_pt = hs/pt[hs.index]
 sc_pt = (sc/pt)[(sc>0) & (pt>0)]
 nd_pt = (nd/pt)[(nd>0) & (pt>0)].rolling(tw).mean()
-#ax.plot(hs_pt, label="入院者数/患者数")
+ax.plot(hs_pt, label="入院者数/患者数")
 ax.plot(sc_pt, label="重症者数/患者数")
 ax.plot(nd_pt, label="新規死亡者数/患者数(7日間移動平均)")
 ax.legend()
