@@ -199,7 +199,7 @@ def plot_by_area(in_df, back_weeks=-1, yscale="log", is_step=False, total_ylim=N
 
     return in_df, fig, axs
 #
-bw = 12 # どれだけ遡るか
+bw = 24 # どれだけ遡るか
 tw = 7 # 移動平均
 # 新規陽性者数
 nc = jp_df.cases.rolling(tw).mean().dropna()
